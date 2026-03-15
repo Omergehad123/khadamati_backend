@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "start": "node index.js",
+    "build": "echo \"No build step defined\""
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.6",
