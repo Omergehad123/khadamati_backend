@@ -26,6 +26,11 @@ const WorkerSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please specify a job type (e.g., Plumber, Carpenter)']
     },
+    category: {
+        type: String,
+        required: [true, 'Please specify a category'],
+        enum: ['Worker', 'Doctor', 'Engineer']
+    },
     phone: {
         type: String,
         required: [true, 'Please add a phone number']

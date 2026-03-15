@@ -43,11 +43,16 @@ exports.getWorkersByCategory = asyncWrapper(async (req, res, next) => {
 // @route   GET /api/workers/search/filter
 // @access  Public
 exports.searchWorkers = asyncWrapper(async (req, res, next) => {
-    const { jobType, location } = req.query;
+    const { jobType, location, category } = req.query;
+    console.log('Search Workers Request:', { jobType, location, category });
     let query = {};
 
     if (jobType) {
         query.jobType = { $regex: new RegExp(jobType, 'i') };
+    }
+
+    if (category) {
+        query.category = category;
     }
 
     if (location) {
@@ -58,7 +63,10 @@ exports.searchWorkers = asyncWrapper(async (req, res, next) => {
         ];
     }
 
+    console.log('Built MongoDB Query:', JSON.stringify(query));
     const workers = await Worker.find(query);
+    console.log(`Found ${workers.length} workers`);
+
     res.status(200).json({
         status: httpStatusText.SUCCESS,
         data: { workers }
@@ -256,9 +264,10 @@ exports.createReview = asyncWrapper(async (req, res, next) => {
 // @access  Public
 exports.getCategories = asyncWrapper(async (req, res, next) => {
     console.log('HIT getCategories');
-    const categories = await Worker.distinct('jobType');
+    const categories = await Worker.distinct('category');
+    const jobTypes = await Worker.distinct('jobType');
     res.status(200).json({
         status: httpStatusText.SUCCESS,
-        data: { categories }
+        data: { categories, jobTypes }
     });
 });

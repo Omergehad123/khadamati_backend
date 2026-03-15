@@ -8,7 +8,7 @@ const httpStatusText = require('../../utils/httpStatusText');
 // @access  Public
 exports.register = asyncWrapper(async (req, res, next) => {
     console.log('Worker Register Request:', req.body);
-    const { name, email, password, jobType, phone, city, area, address, description, experienceYears, services } = req.body;
+    const { name, email, password, jobType, category, phone, city, area, address, description, experienceYears, services } = req.body;
 
     // Create worker
     const worker = await Worker.create({
@@ -16,6 +16,7 @@ exports.register = asyncWrapper(async (req, res, next) => {
         email,
         password,
         jobType,
+        category,
         phone,
         city,
         area,
@@ -83,6 +84,7 @@ const sendTokenResponse = (worker, statusCode, res) => {
                 name: worker.name,
                 email: worker.email,
                 role: 'worker',
+                category: worker.category,
                 jobType: worker.jobType,
                 images: worker.images,
                 city: worker.city,
