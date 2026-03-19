@@ -71,7 +71,6 @@ exports.getMe = asyncWrapper(async (req, res, next) => {
 
 // Get token from model, create cookie and send response
 const sendTokenResponse = (worker, statusCode, res) => {
-    // Create token
     const token = worker.getSignedJwtToken();
 
     res.status(statusCode).json({
@@ -86,9 +85,14 @@ const sendTokenResponse = (worker, statusCode, res) => {
                 role: 'worker',
                 category: worker.category,
                 jobType: worker.jobType,
-                images: worker.images,
+                phone: worker.phone,           // ← was missing
                 city: worker.city,
-                area: worker.area
+                area: worker.area,
+                address: worker.address,       // ← was missing
+                description: worker.description, // ← was missing
+                experienceYears: worker.experienceYears, // ← was missing (THE BUG)
+                services: worker.services,     // ← was missing
+                images: worker.images,
             }
         }
     });
