@@ -13,9 +13,17 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(
+    cors({
+        origin: '*',
+        credentials: false,
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+    })
+);
 app.use(express.json());
 
+app.options(/.*/, cors());
 // Set static folder
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
